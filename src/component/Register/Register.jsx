@@ -1,60 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
-import loginImage from "../../assets/login.png";
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { registerUser } from '../../service/authService';
-
+import loginImage from "@/assets/login.png";
+import { toast } from "react-toastify";
+import { registerUser } from "@/service/authService";
 
 const Register = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    name: '',  
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
     terms: false,
   });
 
   const OnChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
-
-    setData(data => ({ ...data, [name]: value }));
+    const { name, type, checked, value } = event.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    try{
-   const response = await registerUser(data);
+    try {
+      const response = await registerUser(data);
 
-      if(response.status === 201){
-        toast.success("Registration completed.Please login.");
+      if (response.status === 201) {
+        toast.success("Registration completed. Please login.");
         navigate("/login");
-      }else{
-        toast.error("Unable to register.please try again.")
+      } else {
+        toast.error("Unable to register. Please try again.");
       }
-    }catch(error){
-    toast.error("Unable to register.Please try again.");
+    } catch (error) {
+      console.error("Register error:", error);
+      toast.error("Unable to register. Please try again.");
     }
-    
-
-    console.log(data);
   };
 
   const handleReset = () => {
     setData({
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
       terms: false,
     });
   };
 
   return (
-    <div 
-      className="register-wrapper" 
+    <div
+      className="register-wrapper"
       style={{ backgroundImage: `url(${loginImage})` }}
     >
       <div className="register-card">
@@ -68,8 +65,8 @@ const Register = () => {
               name="name"
               placeholder="Enter your full name"
               required
-              onChange={OnChangeHandler}
               value={data.name}
+              onChange={OnChangeHandler}
             />
           </div>
 
@@ -101,7 +98,7 @@ const Register = () => {
             <input
               type="checkbox"
               id="terms"
-              name="terms"          
+              name="terms"
               checked={data.terms}
               onChange={OnChangeHandler}
               required
