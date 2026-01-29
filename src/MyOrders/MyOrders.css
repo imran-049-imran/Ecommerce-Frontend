@@ -1,0 +1,152 @@
+/* Global font */
+
+* {
+    font-family: "Poppins", sans-serif !important;
+}
+
+
+/* Main Container */
+
+.orders-container {
+    display: flex;
+    justify-content: center;
+    padding: 30px 10px;
+    background: #f6f7fb;
+}
+
+
+/* Card */
+
+.orders-card {
+    width: 95%;
+    max-width: 1100px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Table */
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-row {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+
+/* Order Image */
+
+.order-image {
+    height: 50px;
+    width: 50px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+
+/* Items column */
+
+.order-items {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* Amount */
+
+.order-amount {
+    font-size: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+
+/* Items count */
+
+.order-count {
+    font-size: 14px;
+    color: #555;
+}
+
+
+/* Status with color coding */
+
+.order-status {
+    font-weight: 600;
+}
+
+.order-status.pending {
+    color: #ffc107;
+}
+
+.order-status.completed {
+    color: #28a745;
+}
+
+.order-status.cancelled {
+    color: #dc3545;
+}
+
+
+/* Refresh button */
+
+.refresh-btn {
+    border: none;
+    background: #ffc107;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.refresh-btn:hover {
+    background: #e0a800;
+}
+
+
+/* Empty state */
+
+.empty-orders {
+    text-align: center;
+    padding: 40px;
+}
+
+.empty-img {
+    width: 120px;
+    margin-bottom: 16px;
+}
+
+.no-orders {
+    font-size: 18px;
+    color: #777;
+}
+
+
+/* Loading skeleton */
+
+.loading-skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeleton-row {
+    height: 50px;
+    background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}

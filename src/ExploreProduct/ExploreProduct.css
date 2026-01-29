@@ -1,0 +1,84 @@
+.explore-wrapper {
+    padding: 30px 0;
+    background: #f6f7fb;
+    min-height: 100vh;
+}
+
+
+/* ================= SEARCH BAR ================= */
+
+.explore-search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 720px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.category-select {
+    height: 44px;
+    border-radius: 10px;
+    padding: 0 12px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    background: #fff;
+}
+
+.search-input {
+    flex: 1;
+    height: 44px;
+    border-radius: 10px;
+    padding: 0 16px;
+    border: 1px solid #ff4d6d;
+    font-size: 14px;
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 77, 109, 0.2);
+}
+
+
+/* 💗 PINK SEARCH BUTTON */
+
+.search-btn {
+    height: 44px;
+    background: linear-gradient(135deg, #ff4d6d, #ff6f91);
+    border: none;
+    color: #fff;
+    padding: 0 22px;
+    font-size: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    background: linear-gradient(135deg, #ff335c, #ff5f86);
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(255, 77, 109, 0.35);
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 576px) {
+    .search-form {
+        flex-direction: column;
+    }
+    .category-select,
+    .search-input,
+    .search-btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,95 @@
+.header {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-25px);
+}
+
+.header-img {
+    width: 100%;
+    height: 130%;
+    object-position: top;
+    display: block;
+}
+
+.header-content {
+    position: absolute;
+    z-index: 2;
+    left: 4%;
+    bottom: 30px;
+    color: #ffffff;
+    max-width: 500px;
+    text-align: left;
+}
+
+.header-content h1 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.header-content p {
+    font-size: 16px;
+    color: #f3f4f6;
+    line-height: 1.6;
+}
+
+.explore-btn {
+    margin-top: 20px;
+    /* tighter spacing */
+    background-color: #ec485e;
+    color: #ffffff;
+    border: none;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(241, 87, 121, 0.45);
+    display: inline-block;
+    /* ensures proper alignment */
+}
+
+.explore-btn:hover {
+    background-color: #db2777;
+    transform: translateY(-2px);
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .header {
+        height: 320px;
+        margin: 8px;
+    }
+    .header-img {
+        object-fit: contain;
+        /* keep full image visible */
+    }
+    .header-content {
+        left: 6%;
+        bottom: 20px;
+        /* lift button/text up */
+    }
+    .header-content h1 {
+        font-size: 28px;
+    }
+    .header-content p {
+        font-size: 14px;
+    }
+    .explore-btn {
+        padding: 10px 22px;
+        font-size: 14px;
+    }
+}

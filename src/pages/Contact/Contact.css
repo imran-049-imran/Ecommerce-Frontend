@@ -1,0 +1,89 @@
+/* ===============================
+   HEADER
+================================ */
+
+.contact-header {
+    background: #0d6efd;
+    color: white;
+    text-align: center;
+    padding: 50px 15px;
+}
+
+.contact-header h1 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.contact-header p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+
+/* ===============================
+   SECTION
+================================ */
+
+.contact-section {
+    background: #f8f9fa;
+    padding: 60px 0;
+}
+
+
+/* ===============================
+   CARD
+================================ */
+
+.contact-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 35px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+
+/* ===============================
+   INPUTS
+================================ */
+
+.ecommerce-input {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+}
+
+.ecommerce-input:focus {
+    border-color: #0d6efd;
+    box-shadow: none;
+}
+
+
+/* ===============================
+   BUTTON
+================================ */
+
+.contact-btn {
+    width: 100%;
+    padding: 12px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.contact-btn:hover {
+    background: #084298;
+}
+
+
+/* ===============================
+   MOBIL

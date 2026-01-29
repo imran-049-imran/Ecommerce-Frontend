@@ -1,0 +1,138 @@
+.login-wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 28px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 380px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 28px 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.20);
+    animation: fadeIn 0.3s ease-in-out;
+    position: relative;
+    z-index: 2;
+}
+
+.login-card h5 {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+
+/* INPUT GROUP */
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+
+/* DIRECT INPUT STYLE (NO ICON WRAPPER) */
+
+.input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.7px solid #dcdcdc;
+    border-radius: 10px;
+    font-size: 15px;
+    background: #fafafa;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.input-group input:hover {
+    background: #f2f2f2;
+}
+
+.input-group input:focus {
+    border-color: #0d6efd;
+    background: #ffffff;
+    box-shadow: 0 0 8px rgba(13, 110, 253, 0.25);
+}
+
+.input-group input::placeholder {
+    color: #999;
+    font-size: 14px;
+    transition: 0.25s ease;
+}
+
+
+/* CHECKBOX */
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.checkbox-row label {
+    font-size: 14px;
+    color: #555;
+}
+
+
+/* BUTTON */
+
+.btn {
+    height: 45px;
+    font-weight: 600;
+    border-radius: 6px !important;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+
+/* ANIMATION */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 22px 18px;
+    }
+    .input-group input,
+    .btn {
+        font-size: 14px;
+        height: 42px;
+    }
+    .login-card h5 {
+        font-size: 22px;
+    }
+}

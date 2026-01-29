@@ -1,0 +1,92 @@
+.product-card {
+    width: 100%;
+    max-width: 250px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    padding: 10px;
+}
+
+.product-body {
+    padding: 10px;
+}
+
+.product-title {
+    font-size: 16px;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+
+/* ========================= */
+
+
+/* 🔥 DESCRIPTION – 3 LINES */
+
+
+/* ========================= */
+
+.product-desc {
+    font-size: 13px;
+    color: #777;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    /* 👈 ONLY 3 LINES */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 54px;
+    /* equal height for all cards */
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.price {
+    font-weight: bold;
+    color: #ff6600;
+}
+
+.rating {
+    font-size: 13px;
+}
+
+.product-footer {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-btn {
+    background: #ff4d6d;
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.qty-box {
+    display: flex;
+    gap: 10px;
+}
+
+.qty-box button {
+    padding: 2px 8px;
+}

@@ -1,0 +1,29 @@
+.product-display {
+    background: #f8f9fa;
+    min-height: 60vh;
+    padding-bottom: 40px;
+}
+
+
+/* Empty state */
+
+.empty-state {
+    text-align: center;
+    margin: 60px auto;
+    max-width: 420px;
+}
+
+.empty-img {
+    width: 140px;
+    margin-bottom: 16px;
+    opacity: 0.85;
+}
+
+.empty-state h5 {
+    font-weight: 600;
+    color: #444;
+}
+
+.empty-state p {
+    color: #777;
+}

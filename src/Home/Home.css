@@ -1,0 +1,107 @@
+.home-container {
+    padding: 20px;
+    background: #f3f3f3;
+}
+
+
+/* CATEGORY GRID */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+
+/* CATEGORY BOX */
+
+.category-box {
+    position: relative;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid #eaeaea;
+    transition: all 0.3s ease;
+}
+
+.category-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.category-box.active {
+    border: 2px solid #ff3366;
+}
+
+
+/* IMAGE */
+
+.image-wrapper {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-wrapper img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+
+/* TITLE */
+
+.category-box h5 {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+/* OFFER BADGE */
+
+.offer-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #cc0c39;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+
+/* 🔍 SEARCH BAR */
+
+.search-bar-wrapper {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.search-bar-wrapper input {
+    flex: 1;
+    padding: 14px 16px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+
+.search-bar-wrapper button {
+    padding: 0 28px;
+    background: #ff3366;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}

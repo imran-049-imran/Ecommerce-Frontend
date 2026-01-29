@@ -1,0 +1,167 @@
+/* ================= PRODUCT CARD ================= */
+
+.product-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+
+/* ================= IMAGE ================= */
+
+.img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.img-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+
+/* ================= DISCOUNT BADGE ================= */
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ec485e;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ================= PRODUCT INFO ================= */
+
+.product-info {
+    text-align: left;
+}
+
+.product-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+
+/* ================= PRICE & RATING ================= */
+
+.price-rating {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.product-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ec485e;
+    /* highlight price */
+}
+
+.rating-badge {
+    background: #ffe082;
+    color: #111;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+
+/* ================= ADD TO CART BUTTON ================= */
+
+.add-btn {
+    background: linear-gradient(135deg, #ff4d6d, #ff6f91);
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.add-btn:hover {
+    background: linear-gradient(135deg, #ff335c, #ff5f86);
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(255, 77, 109, 0.35);
+}
+
+
+/* ================= SKELETON LOADER ================= */
+
+.skeleton {
+    background: #f1f1f1;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.skeleton-img {
+    width: 100%;
+    height: 160px;
+    background: #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.skeleton-text {
+    height: 16px;
+    background: #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 576px) {
+    .img-wrapper {
+        height: 140px;
+    }
+    .product-name {
+        font-size: 14px;
+    }
+    .product-price {
+        font-size: 14px;
+    }
+    .rating-badge {
+        font-size: 12px;
+        padding: 2px 6px;
+    }
+    .add-btn {
+        font-size: 13px;
+        padding: 8px;
+    }
+}
