@@ -3,7 +3,7 @@ import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
 import loginImage from "@/assets/login.png";
 import { toast } from "react-toastify";
-import { registerUser } from "@/service/authService";
+import { registerUser } from "@/Service/authService";
 
 const Register = () => {
   const navigate = useNavigate();
