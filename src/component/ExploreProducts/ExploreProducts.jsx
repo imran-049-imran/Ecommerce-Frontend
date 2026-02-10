@@ -25,7 +25,7 @@ const ExploreProduct = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("");
 
-  // ✅ Filter products by search + category
+  // Filter products by search + category
   const filteredProducts = productList.filter((p) => {
     const matchSearch =
       p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -38,7 +38,7 @@ const ExploreProduct = () => {
     return matchSearch && matchCategory;
   });
 
-  // ✅ Dynamic heading
+  //  Dynamic heading
   const headingText = activeCategory
     ? `Showing ${activeCategory}`
     : "All Products";
@@ -50,11 +50,10 @@ const ExploreProduct = () => {
         <div className="search-box">
           <input
             type="text"
-            placeholder="Search by name or category..."
+            placeholder="Search for Products, Brands and More"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <button className="search-btn">Search</button>
         </div>
       </div>
 
