@@ -194,8 +194,8 @@ const Menubar = () => {
                             setIsProfileOpen(false);
                           }}
                         >
-                          <i className="bi bi-person-circle"></i>
-                          <span>My Profile</span>
+                          {/* <i className="bi bi-person-circle"></i>
+                          <span>My Profile</span> */}
                         </button>
                       </li>
 
