@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import { assets } from "../../assets/assets";
@@ -13,47 +13,73 @@ const Menubar = () => {
   } = useContext(StoreContext);
 
   const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  // 🔴 LOGOUT
-  const logout = () => {
+  // Logout handler
+  const handleLogout = () => {
     localStorage.removeItem("token");
     setToken("");
     setQuantities({});
+    setIsProfileOpen(false);
     navigate("/");
   };
 
-  return (
-    <nav className="navbar navbar-expand-lg ecommerce-navbar sticky-top">
-      <div className="container">
+  // Navigation handler
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
-        {/* LOGO → HOME */}
-        <NavLink to="/" className="navbar-brand">
-          <img src={assets.logo} alt="logo" className="menu-logo" />
+  // Close menu when nav link is clicked
+  const handleNavLinkClick = () => {
+    setIsMenuOpen(false);
+  };
+
+  return (
+    <nav className="menubar navbar navbar-expand-lg sticky-top">
+      <div className="container-fluid menubar-container">
+        {/* Logo */}
+        <NavLink 
+          to="/" 
+          className="navbar-brand menubar-logo"
+          onClick={() => setIsMenuOpen(false)}
+        >
+          <img src={assets.logo} alt="Logo" className="menu-logo" />
         </NavLink>
 
-        {/* TOGGLER */}
+        {/* Mobile Toggler */}
         <button
-          className="navbar-toggler"
+          className={`navbar-toggler menubar-toggler ${isMenuOpen ? "active" : ""}`}
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="toggler-line"></span>
+          <span className="toggler-line"></span>
+          <span className="toggler-line"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarContent">
-
-          {/* NAV LINKS */}
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        {/* Navigation Content */}
+        <div
+          className={`collapse navbar-collapse menubar-collapse ${
+            isMenuOpen ? "show" : ""
+          }`}
+          id="navbarContent"
+        >
+          {/* Nav Links */}
+          <ul className="navbar-nav menubar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <NavLink
                 to="/"
                 end
                 className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
+                  `nav-link menubar-link ${isActive ? "active" : ""}`
                 }
+                onClick={handleNavLinkClick}
               >
-                Home
+                <i className="bi "></i>
+                <span>Home</span>
               </NavLink>
             </li>
 
@@ -61,10 +87,12 @@ const Menubar = () => {
               <NavLink
                 to="/explore-product"
                 className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
+                  `nav-link menubar-link ${isActive ? "active" : ""}`
                 }
+                onClick={handleNavLinkClick}
               >
-                Explore 
+                <i className="bi"></i>
+                <span>Explore</span>
               </NavLink>
             </li>
 
@@ -72,65 +100,133 @@ const Menubar = () => {
               <NavLink
                 to="/contact"
                 className={({ isActive }) =>
-                  isActive ? "nav-link active" : "nav-link"
+                  `nav-link menubar-link ${isActive ? "active" : ""}`
                 }
+                onClick={handleNavLinkClick}
               >
-                Contact
+                <i className="bi"></i>
+                <span>Contact</span>
               </NavLink>
             </li>
           </ul>
 
-          {/* RIGHT SIDE */}
-          <div className="d-flex align-items-center gap-3">
-
-            {/* CART */}
-            <NavLink to="/cart" className="cart-icon position-relative">
-              <img src={assets.cart} alt="cart" />
-              {cartCount > 0 && (
-                <span className="cart-badge">{cartCount}</span>
-              )}
+          {/* Right Section */}
+          <div className="menubar-right">
+            {/* Cart Icon */}
+            <NavLink
+              to="/cart"
+              className="cart-link"
+              onClick={handleNavLinkClick}
+            >
+              <div className="cart-icon-wrapper">
+                <i className="bi bi-bag-fill"></i>
+                {cartCount > 0 && (
+                  <span className="cart-badge">{cartCount}</span>
+                )}
+              </div>
+              <span className="cart-text">Cart</span>
             </NavLink>
 
-            {/* AUTH */}
+            {/* Auth Section */}
             {!token ? (
-              <>
+              <div className="auth-buttons">
                 <button
-                  className="btn btn-outline-secondary btn-sm"
-                  onClick={() => navigate("/login")}
+                  className="btn-login"
+                  onClick={() => {
+                    handleNavigation("/login");
+                  }}
                 >
-                  Login
+                  <i className="bi bi-box-arrow-in-right"></i>
+                  <span>Login</span>
                 </button>
 
                 <button
-                  className="btn btn-primary btn-sm"
-                  onClick={() => navigate("/register")}
+                  className="btn-register"
+                  onClick={() => {
+                    handleNavigation("/register");
+                  }}
                 >
-                  Register
+                  <i className="bi bi-person-plus-fill"></i>
+                  <span>Register</span>
                 </button>
-              </>
+              </div>
             ) : (
-              <div className="dropdown">
-                <img
-                  src={assets.profile}
-                  alt="profile"
-                  className="profile-img dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                />
+              <div className="profile-section">
+                <button
+                  className={`profile-btn ${isProfileOpen ? "active" : ""}`}
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  aria-label="User profile menu"
+                >
+                  <img
+                    src={assets.profile}
+                    alt="Profile"
+                    className="profile-img"
+                  />
+                  <i className="bi bi-chevron-down"></i>
+                </button>
 
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li
-                    className="dropdown-item"
-                    onClick={() => navigate("/myorders")}
-                  >
-                    My Orders
-                  </li>
-                  <li className="dropdown-item" onClick={logout}>
-                    Logout
-                  </li>
-                </ul>
+                {/* Profile Dropdown */}
+                {isProfileOpen && (
+                  <div className="profile-dropdown">
+                    <div className="dropdown-header">
+                      <p className="dropdown-title">My Account</p>
+                    </div>
+
+                    <ul className="dropdown-menu-custom">
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => {
+                            handleNavigation("/myorders");
+                            setIsProfileOpen(false);
+                          }}
+                        >
+                          <i className="bi bi-bag-check"></i>
+                          <span>My Orders</span>
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => {
+                            handleNavigation("/profile");
+                            setIsProfileOpen(false);
+                          }}
+                        >
+                          <i className="bi bi-person-circle"></i>
+                          <span>My Profile</span>
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          className="dropdown-item"
+                          onClick={() => {
+                            handleNavigation("/settings");
+                            setIsProfileOpen(false);
+                          }}
+                        >
+                        
+                        </button>
+                      </li>
+
+                      <li className="dropdown-divider"></li>
+
+                      <li>
+                        <button
+                          className="dropdown-item logout-btn"
+                          onClick={handleLogout}
+                        >
+                          <i className="bi bi-box-arrow-right"></i>
+                          <span>Logout</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
-
           </div>
         </div>
       </div>
