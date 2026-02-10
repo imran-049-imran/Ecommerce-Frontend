@@ -6,8 +6,8 @@ const ExploreProduct = () => {
   const [category, setCategory] = useState("all");
   const [searchText, setSearchText] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
- 
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchText);
@@ -33,38 +33,106 @@ const ExploreProduct = () => {
     { value: "grocery", label: "Grocery" },
   ];
 
+  const handleClearSearch = () => {
+    setSearchText("");
+    setDebouncedSearch("");
+  };
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    // Trigger search if needed
+    setDebouncedSearch(searchText);
+  };
+
   return (
     <div className="explore-wrapper">
-      {/* 🔍 SEARCH BAR */}
-      <div className="explore-search container">
-        <form className="search-form" onSubmit={(e) => e.preventDefault()}>
-          <select
-            className="category-select"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {categories.map((cat) => (
-              <option key={cat.value} value={cat.value}>
-                {cat.label}
-              </option>
-            ))}
-          </select>
+      {/* Search Bar Section */}
+      <div className="explore-search-section">
+        <div className="explore-search container">
+          <div className="search-header">
+            <h1 className="search-title">Find Your Perfect Product</h1>
+            <p className="search-subtitle">
+              Browse through thousands of products across all categories
+            </p>
+          </div>
 
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search products, brands and more..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
+          <form className="search-form" onSubmit={handleSearchSubmit}>
+            {/* Category Select */}
+            <div className="form-group category-group">
+              <label htmlFor="category-select" className="form-label">
+                Category
+              </label>
+              <select
+                id="category-select"
+                className="category-select"
+                value={category}
+                onChange={handleCategoryChange}
+                aria-label="Product category filter"
+              >
+                {categories.map((cat) => (
+                  <option key={cat.value} value={cat.value}>
+                    {cat.label}
+                  </option>
+                ))}
+              </select>
+              <span className="select-icon">
+                <i className="bi bi-chevron-down"></i>
+              </span>
+            </div>
 
-          <button type="button" className="search-btn">
-            <i className="bi bi-search"></i>
-          </button>
-        </form>
+            {/* Search Input */}
+            <div className="form-group search-group">
+              <label htmlFor="search-input" className="form-label">
+                Search
+              </label>
+              <div className="search-input-wrapper">
+                <span className="search-icon">
+              
+                </span>
+                <input
+                  id="search-input"
+                  type="text"
+                  className="search-input"
+                  placeholder="Search products, brands and more..."
+                  value={searchText}
+                  onChange={handleSearchChange}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  aria-label="Search for products"
+                />
+                {searchText && (
+                  <button
+                    type="button"
+                    className="clear-btn"
+                    onClick={handleClearSearch}
+                    aria-label="Clear search"
+                  >
+                    <i className="bi bi-x-circle-fill"></i>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Search Button */}
+            <div className="form-group button-group">
+             
+            </div>
+          </form>
+        </div>
       </div>
 
-      <ProductDisplay category={category} searchText={debouncedSearch} />
+      {/* Product Display */}
+      <div className="products-section">
+        <ProductDisplay category={category} searchText={debouncedSearch} />
+      </div>
     </div>
   );
 };
