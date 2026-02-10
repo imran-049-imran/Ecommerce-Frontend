@@ -9,4 +9,21 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  css: {
+    
+    devSourcemap: true, 
+    postcss: {
+  
+      plugins: [],
+    },
+  },
+  build: {
+    minify: "esbuild", 
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
 });
