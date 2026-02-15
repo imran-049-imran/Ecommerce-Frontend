@@ -15,6 +15,7 @@ Responsive Design – Optimized for desktop, tablet, and mobile
 
 API Integration – Fetch products and user data from backend services
 
+```
 ## Tech Stack
 
 Category	Tools Used
@@ -23,6 +24,7 @@ Styling	CSS Modules / TailwindCSS
 State Management	Redux Toolkit / Context API
 API Calls	Axios / Fetch
 Build & Deploy	Vite / Webpack, GitHub Pages / Vercel
+```
 ```
 
 📂 Project Structure
