@@ -45,7 +45,7 @@ ecommerce-frontend/
 ⚡ Getting Started
 1. Clone the repository
 bash
-git clone https://github.com/your-username/ecommerce-frontend.git
+git clone https://github.com/imran-049-imran/ecommerce-frontend.git
 cd ecommerce-frontend
 2. Install dependencies
 bash
