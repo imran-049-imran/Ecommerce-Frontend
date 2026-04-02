@@ -18,7 +18,7 @@ const MyOrders = () => {
       isRefresh ? setRefreshing(true) : setLoading(true);
       setError(null);
 
-      const res = await axios.get("http://localhost:8080/api/orders", {
+      const res = await axios.get("http://localhost:8081/api/orders", {
         headers: { Authorization: `Bearer ${token}` },
         timeout: 10000,
       });
