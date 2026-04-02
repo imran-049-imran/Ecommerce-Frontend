@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/cart";
+const API_URL = "http://localhost:8081/api/cart";
 
 // Add to Cart
 export const addToCart = async(productId, token) => {
