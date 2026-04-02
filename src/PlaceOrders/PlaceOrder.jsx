@@ -96,17 +96,17 @@ const CheckoutForm = ({ clientSecret, billing, order }) => {
       if (paymentIntent.status === "succeeded") {
         try {
           await axios.post(
-            "http://localhost:8080/api/orders/verify",
+            "http://localhost:8081/api/orders/verify",
             { stripeOrderId: order.stripeOrderId },
             { headers: { Authorization: `Bearer ${token}` } }
           );
 
-          await axios.delete("http://localhost:8080/api/cart/clear", {
+          await axios.delete("http://localhost:8081/api/cart/clear", {
             headers: { Authorization: `Bearer ${token}` },
           });
 
           setQuantities({});
-          toast.success("Payment successful 🎉");
+          toast.success("Payment successful ");
           navigate("/payment-success");
         } catch (verifyError) {
           console.error("Verification error:", verifyError);
