@@ -1,139 +1,215 @@
-import React, { useState, useEffect } from "react";
-import ProductDisplay from "../component/ProductDisplay/ProductDisplay";
+import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
+import { categories } from "../../assets/assest";
 import "./ExploreProduct.css";
 
-const ExploreProduct = () => {
-  const [category, setCategory] = useState("all");
-  const [searchText, setSearchText] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
+// ─── "All" category prepended so users can reset the filter ──────────────────
+const ALL_CATEGORIES = [
+  { name: "All", icon: null },
+  ...categories,
+];
+
+// ─── Skeleton card (shown while images load) ──────────────────────────────────
+const CategorySkeleton = () => (
+  <div className="explore__item explore__item--skeleton" aria-hidden="true">
+    <div className="explore__skeleton-img" />
+    <div className="explore__skeleton-label" />
+  </div>
+);
+
+// ─── Single category button — memoized so only changed items re-render ────────
+const CategoryItem = React.memo(({ item, isActive, onSelect }) => (
+  <button
+    role="listitem"
+    className={`explore__item ${isActive ? "explore__item--active" : ""}`}
+    onClick={() => onSelect(item.name)}
+    aria-pressed={isActive}
+    aria-label={`Filter by ${item.name}`}
+  >
+    <div className="explore__img-wrap">
+
+      {/* "All" uses an SVG grid icon; real categories use their image */}
+      {item.icon ? (
+        <img
+          src={item.icon}
+          alt=""              /* decorative — label carries the meaning */
+          className="explore__img"
+          loading="lazy"
+          draggable={false}
+        />
+      ) : (
+        <span className="explore__all-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="1.8"
+            strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3"  y="3"  width="7" height="7" rx="1" />
+            <rect x="14" y="3"  width="7" height="7" rx="1" />
+            <rect x="3"  y="14" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+          </svg>
+        </span>
+      )}
+
+      {/* Checkmark badge — pops in when active */}
+      {isActive && (
+        <span className="explore__check" aria-hidden="true">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="3.5"
+            strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </span>
+      )}
+    </div>
+
+    <span className="explore__label">{item.name}</span>
+
+    {/* Product count badge (optional — pass productCounts prop) */}
+    {item.count != null && (
+      <span className="explore__count">{item.count}</span>
+    )}
+  </button>
+));
+
+CategoryItem.displayName = "CategoryItem";
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+const ExploreProduct = ({ category, setCategory, productCounts = {} }) => {
+  const scrollRef  = useRef(null);
+  const [canLeft,   setCanLeft]   = useState(false);
+  const [canRight,  setCanRight]  = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Enrich categories with live product counts if provided by parent
+  const enrichedCategories = useMemo(
+    () =>
+      ALL_CATEGORIES.map((cat) => ({
+        ...cat,
+        count: cat.name === "All" ? null : (productCounts[cat.name] ?? null),
+      })),
+    [productCounts]
+  );
+
+  // Skeleton → real content on mount
+  useEffect(() => {
+    const t = setTimeout(() => setIsLoading(false), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  // ── Arrow visibility: recalc on scroll + resize ──
+  const updateArrows = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 8);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8);
+  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchText);
-    }, 400);
-    return () => clearTimeout(timer);
-  }, [searchText]);
+    const el = scrollRef.current;
+    if (!el) return;
+    updateArrows();
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    window.addEventListener("resize", updateArrows, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", updateArrows);
+      window.removeEventListener("resize", updateArrows);
+    };
+  }, [updateArrows]);
 
-  const categories = [
-    { value: "all", label: "All Categories" },
-    { value: "accessories", label: "Accessories" },
-    { value: "art-supplies", label: "Art Supplies" },
-    { value: "baby products", label: "Baby Products" },
-    { value: "bags", label: "Bags" },
-    { value: "bakery", label: "Bakery" },
-    { value: "bath", label: "Bath" },
-    { value: "beauty", label: "Beauty" },
-    { value: "books", label: "Books" },
-    { value: "electronics", label: "Electronics" },
-    { value: "fashion", label: "Fashion" },
-    { value: "toys & games", label: "Toys & Games" },
-    { value: "home & furniture", label: "Home & Furniture" },
-    { value: "mobiles", label: "Mobiles" },
-    { value: "grocery", label: "Grocery" },
-  ];
+  const scroll = useCallback((direction) => {
+    scrollRef.current?.scrollBy({ left: direction * 240, behavior: "smooth" });
+  }, []);
 
-  const handleClearSearch = () => {
-    setSearchText("");
-    setDebouncedSearch("");
-  };
-
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    // Trigger search if needed
-    setDebouncedSearch(searchText);
-  };
+  // Toggle: re-clicking active category resets to "All"
+  const handleSelect = useCallback(
+    (name) => setCategory((prev) => (prev === name ? "All" : name)),
+    [setCategory]
+  );
 
   return (
-    <div className="explore-wrapper">
-      {/* Search Bar Section */}
-      <div className="explore-search-section">
-        <div className="explore-search container">
-          <div className="search-header">
-            <h1 className="search-title">Find Your Perfect Product</h1>
-            <p className="search-subtitle">
-              Browse through thousands of products across all categories
-            </p>
-          </div>
+    <section className="explore" aria-label="Product categories">
 
-          <form className="search-form" onSubmit={handleSearchSubmit}>
-            {/* Category Select */}
-            <div className="form-group category-group">
-              <label htmlFor="category-select" className="form-label">
-                Category
-              </label>
-              <select
-                id="category-select"
-                className="category-select"
-                value={category}
-                onChange={handleCategoryChange}
-                aria-label="Product category filter"
-              >
-                {categories.map((cat) => (
-                  <option key={cat.value} value={cat.value}>
-                    {cat.label}
-                  </option>
-                ))}
-              </select>
-              <span className="select-icon">
-                <i className="bi bi-chevron-down"></i>
-              </span>
-            </div>
+      {/* ── Header ── */}
+      <div className="explore__header">
+        <div className="explore__header-text">
+          <h2 className="explore__title">Explore Our Products</h2>
+          <p className="explore__subtitle">
+            {category === "All"
+              ? "Browse products from top categories"
+              : `Browsing "${category}" — click again to show all`}
+          </p>
+        </div>
 
-            {/* Search Input */}
-            <div className="form-group search-group">
-              <label htmlFor="search-input" className="form-label">
-                Search
-              </label>
-              <div className="search-input-wrapper">
-                <span className="search-icon">
-              
-                </span>
-                <input
-                  id="search-input"
-                  type="text"
-                  className="search-input"
-                  placeholder="Search products, brands and more..."
-                  value={searchText}
-                  onChange={handleSearchChange}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setIsSearchFocused(false)}
-                  aria-label="Search for products"
-                />
-                {searchText && (
-                  <button
-                    type="button"
-                    className="clear-btn"
-                    onClick={handleClearSearch}
-                    aria-label="Clear search"
-                  >
-                    <i className="bi bi-x-circle-fill"></i>
-                  </button>
-                )}
-              </div>
-            </div>
+        <div className="explore__controls">
+          <button
+            className="explore__arrow"
+            onClick={() => scroll(-1)}
+            disabled={!canLeft}
+            aria-label="Scroll categories left"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.2"
+              strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
 
-            {/* Search Button */}
-            <div className="form-group button-group">
-             
-            </div>
-          </form>
+          <button
+            className="explore__arrow"
+            onClick={() => scroll(1)}
+            disabled={!canRight}
+            aria-label="Scroll categories right"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.2"
+              strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
         </div>
       </div>
 
-      {/* Product Display */}
-      <div className="products-section">
-        <ProductDisplay category={category} searchText={debouncedSearch} />
+      {/* ── Scrollable Category List ── */}
+      <div
+        className="explore__track"
+        ref={scrollRef}
+        role="list"
+        aria-label="Category filters"
+      >
+        {isLoading
+          ? Array.from({ length: 7 }).map((_, i) => <CategorySkeleton key={i} />)
+          : enrichedCategories.map((item) => (
+              <CategoryItem
+                key={item.name}
+                item={item}
+                isActive={category === item.name}
+                onSelect={handleSelect}
+              />
+            ))}
       </div>
-    </div>
+
+      {/* ── Active filter pill + clear button ── */}
+      {category !== "All" && !isLoading && (
+        <div className="explore__active-bar" aria-live="polite">
+          <span className="explore__active-pill">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+            </svg>
+            {category}
+          </span>
+
+          <button
+            className="explore__clear"
+            onClick={() => setCategory("All")}
+            aria-label="Clear category filter"
+          >
+            Clear filter ✕
+          </button>
+        </div>
+      )}
+
+      <div className="explore__divider" role="separator" />
+    </section>
   );
 };
 
